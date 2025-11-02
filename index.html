@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claralink - Digital Products Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #8B5CF6;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --darker: #111827;
+            --light: #F9FAFB;
+            --gray: #6B7280;
+            --gray-light: #E5E7EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a.active {
+            color: var(--primary);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius);
+            width: 250px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--dark);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            color: var(--primary);
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--error);
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-btn {
+            background: none;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .language-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            min-width: 150px;
+            z-index: 10;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .language-option:hover {
+            background-color: var(--light);
+        }
+
+        .language-option.active {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.1"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            min-height: calc(100vh - 160px);
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Categories Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--darker);
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background-color: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .category-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .category-count {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--darker);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--warning);
+            font-size: 14px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--success);
+        }
+
+        .payment-method i {
+            font-size: 14px;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--darker);
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: var(--gray-light);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            font-size: 60px;
+            color: var(--primary-light);
+            opacity: 0.2;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--gray-light);
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: var(--radius);
+            padding: 60px 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .dashboard-preview h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-preview p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Forms */
+        .auth-form {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        .dashboard-sidebar {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .dashboard-nav {
+            list-style: none;
+        }
+
+        .dashboard-nav li {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .dashboard-nav a:hover,
+        .dashboard-nav a.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .dashboard-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: var(--gray-light);
+            font-size: 14px;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .search-box input {
+                width: 200px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="claralink.png" alt="Claralink">
+                <span data-i18n="app.name">Claralink</span>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home" data-i18n="nav.home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="products" data-i18n="nav.products">Products</a></li>
+                    <li><a href="#" class="nav-link" data-page="dashboard" data-i18n="nav.dashboard">Dashboard</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" data-i18n-placeholder="search.placeholder" placeholder="Search products...">
+                </div>
+
+                <button class="icon-btn" id="wishlist-btn">
+                    <i class="far fa-heart"></i>
+                    <span class="badge">0</span>
+                </button>
+
+                <button class="icon-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge">0</span>
+                </button>
+
+                <div class="language-selector">
+                    <button class="language-btn">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-language">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option active" data-lang="en">
+                            <span>English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span>Français</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-menu" id="user-menu">
+                    <div class="user-avatar">?</div>
+                    <span data-i18n="user.guest">Guest</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 data-i18n="hero.title">The Empire of E-Commerce Moderne</h1>
+                    <p data-i18n="hero.subtitle">ClaraLink — The Future of E-Commerce Moderne
+                        Sell your skills.
+                        Share your ideas. Buy with confidence.
+                        ClaraLink connects creators and customers worldwide with one simple mission:
+                        to make knowledge and creativity profitable for everyone.
+                        Whether you're starting your first business or scaling your digital empire, ClaraLink gives you
+                        the tools, the audience, and the freedom to grow.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary nav-link" data-page="products">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span data-i18n="hero.shop">Start Shopping</span>
+                        </a>
+                        <a href="#" class="btn btn-secondary" id="register-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span data-i18n="hero.register">Create Account</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="categories.title">Browse by Category</h2>
+                    <p class="section-subtitle" data-i18n="categories.subtitle">Explore our wide range of digital
+                        product categories</p>
+                </div>
+
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="category-name" data-i18n="categories.software">Software & Apps</h3>
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                            products</span>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="category-name" data-i18n="categories.ebooks">E-books</h3>
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                            products</span>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-photo-video"></i>
+                        </div>
+                        <h3 class="category-name" data-i18n="categories.digitalArt">Digital Art</h3>
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                            products</span>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="category-name" data-i18n="categories.music">Music & Audio</h3>
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                            products</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="products.featured">Featured Products</h2>
+                    <p class="section-subtitle" data-i18n="products.subtitle">Handpicked digital products from our top
+                        sellers</p>
+                </div>
+
+                <div class="products-grid" id="featured-products">
+                    <div class="no-products" data-i18n="products.empty">No products available yet. Be the first to add
+                        one!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="features.title">Why Choose Claralink?</h2>
+                    <p class="section-subtitle" data-i18n="features.subtitle">Our platform offers unique advantages for
+                        both buyers and sellers</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title" data-i18n="features.instantDelivery">Instant Delivery</h3>
+                        <p class="feature-description" data-i18n="features.instantDeliveryDesc">Digital products are
+                            delivered instantly after purchase. No waiting, no shipping fees.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title" data-i18n="features.securePayments">Secure Payments</h3>
+                        <p class="feature-description" data-i18n="features.securePaymentsDesc">Your transactions are
+                            protected with secure payment methods and seller verification.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="feature-title" data-i18n="features.globalMarketplace">Global Marketplace</h3>
+                        <p class="feature-description" data-i18n="features.globalMarketplaceDesc">Buy from and sell to
+                            customers worldwide with multi-currency support.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Page -->
+    <section id="products" class="page">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title" data-i18n="products.all">All Digital Products</h1>
+                <p class="section-subtitle" data-i18n="products.allSubtitle">Discover amazing digital products from
+                    talented creators</p>
+            </div>
+
+            <div class="products-grid" id="all-products">
+                <div class="no-products" data-i18n="products.empty">No products available yet. Be the first to add one!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Page -->
+    <section id="dashboard" class="page">
+        <div class="container">
+            <div class="dashboard-container">
+                <div class="dashboard-sidebar">
+                    <ul class="dashboard-nav">
+                        <li><a href="#" class="dashboard-tab active" data-tab="overview"><i
+                                    class="fas fa-chart-pie"></i> <span
+                                    data-i18n="dashboard.overview">Overview</span></a></li>
+                        <li><a href="#" class="dashboard-tab" data-tab="my-products"><i class="fas fa-cube"></i> <span
+                                    data-i18n="dashboard.myProducts">My Products</span></a></li>
+                        <li><a href="#" class="dashboard-tab" data-tab="add-product"><i class="fas fa-plus-circle"></i>
+                                <span data-i18n="dashboard.addProduct">Add Product</span></a></li>
+                        <li><a href="#" class="dashboard-tab" data-tab="sales"><i class="fas fa-shopping-cart"></i>
+                                <span data-i18n="dashboard.sales">Sales</span></a></li>
+                        <li><a href="#" class="dashboard-tab" data-tab="settings"><i class="fas fa-cog"></i> <span
+                                    data-i18n="dashboard.settings">Settings</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="dashboard-content">
+                    <div id="overview-tab" class="dashboard-tab-content active">
+                        <h2 data-i18n="dashboard.overview">Dashboard Overview</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">$0.00</div>
+                                <div class="stat-label" data-i18n="dashboard.totalEarnings">Total Earnings</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label" data-i18n="dashboard.products">Products</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label" data-i18n="dashboard.sales">Sales</div>
+                            </div>
+                        </div>
+                        <p data-i18n="dashboard.welcome">Welcome to your seller dashboard! Start by adding your first
+                            product.</p>
+                    </div>
+
+                    <div id="my-products-tab" class="dashboard-tab-content">
+                        <h2 data-i18n="dashboard.myProducts">My Products</h2>
+                        <div class="products-grid" id="my-products-grid">
+                            <div class="no-products" data-i18n="dashboard.noProducts">You haven't added any products
+                                yet.</div>
+                        </div>
+                    </div>
+
+                    <div id="add-product-tab" class="dashboard-tab-content">
+                        <h2 data-i18n="dashboard.addProduct">Add New Product</h2>
+                        <form id="add-product-form">
+                            <div class="form-group">
+                                <label for="product-title" data-i18n="form.productTitle">Product Title</label>
+                                <input type="text" id="product-title" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-description" data-i18n="form.description">Description</label>
+                                <textarea id="product-description" class="form-control" rows="4" required></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-price" data-i18n="form.price">Price ($)</label>
+                                    <input type="number" id="product-price" class="form-control" step="0.01" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="product-category" data-i18n="form.category">Category</label>
+                                    <select id="product-category" class="form-control" required>
+                                        <option value="" data-i18n="form.selectCategory">Select Category</option>
+                                        <option value="software" data-i18n="categories.software">Software & Apps
+                                        </option>
+                                        <option value="ebooks" data-i18n="categories.ebooks">E-books</option>
+                                        <option value="digital-art" data-i18n="categories.digitalArt">Digital Art
+                                        </option>
+                                        <option value="music" data-i18n="categories.music">Music & Audio</option>
+                                        <option value="video" data-i18n="categories.video">Video Templates</option>
+                                        <option value="design" data-i18n="categories.design">Design Resources</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-whatsapp" data-i18n="form.whatsapp">WhatsApp Number</label>
+                                <input type="text" id="product-whatsapp" class="form-control"
+                                    placeholder="+225 00 00 00 00 00" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label data-i18n="form.paymentMethods">Payment Methods</label>
+                                <div>
+                                    <input type="checkbox" id="orange-money" checked>
+                                    <label for="orange-money" data-i18n="payment.orangeMoney">Orange Money</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="moov-money">
+                                    <label for="moov-money" data-i18n="payment.moovMoney">Moov Money</label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> <span data-i18n="form.addProduct">Add Product</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div id="sales-tab" class="dashboard-tab-content">
+                        <h2 data-i18n="dashboard.sales">Sales History</h2>
+                        <p data-i18n="dashboard.noSales">No sales yet. Promote your products to start earning!</p>
+                    </div>
+
+                    <div id="settings-tab" class="dashboard-tab-content">
+                        <h2 data-i18n="dashboard.settings">Account Settings</h2>
+                        <form id="settings-form">
+                            <div class="form-group">
+                                <label for="user-name" data-i18n="form.fullName">Full Name</label>
+                                <input type="text" id="user-name" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user-email" data-i18n="form.email">Email</label>
+                                <input type="email" id="user-email" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user-phone" data-i18n="form.phone">Phone Number</label>
+                                <input type="text" id="user-phone" class="form-control"
+                                    placeholder="+225 00 00 00 00 00">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" data-i18n="form.saveChanges">Save
+                                Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 data-i18n="app.name">Claralink</h3>
+                    <p data-i18n="footer.description">ClaraLink — The Future of Digital Commerce
+                        Sell your skills. Share your ideas. Buy with confidence.
+                        ClaraLink connects creators and customers worldwide with one simple mission: to make knowledge
+                        and creativity profitable for everyone.
+                        Whether you start your first business or scaling your digital empire, ClaraLink gives you
+                        the tools, the audience, and the freedom to grow.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3 data-i18n="footer.marketplace">Marketplace</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.allProducts">All Products</a></li>
+                        <li><a href="#" data-i18n="footer.categories">Categories</a></li>
+                        <li><a href="#" data-i18n="footer.topSellers">Top Sellers</a></li>
+                        <li><a href="#" data-i18n="footer.newArrivals">New Arrivals</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 data-i18n="footer.company">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.about">About Us</a></li>
+                        <li><a href="#" data-i18n="footer.careers">Careers</a></li>
+                        <li><a href="#" data-i18n="footer.blog">Blog</a></li>
+                        <li><a href="#" data-i18n="footer.contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 data-i18n="footer.support">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.helpCenter">Help Center</a></li>
+                        <li><a href="#" data-i18n="footer.faqs">FAQs</a></li>
+                        <li><a href="#" data-i18n="footer.sellerGuidelines">Seller Guidelines</a></li>
+                        <li><a href="#" data-i18n="footer.reportProblem">Report a Problem</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright" data-i18n="footer.copyright">© 2025 Claralink. All rights reserved.</div>
+                <div class="footer-bottom-links">
+                    <a href="#" data-i18n="footer.privacy">Privacy</a>
+                    <a href="#" data-i18n="footer.terms">Terms</a>
+                    <a href="#" data-i18n="footer.sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title" id="auth-modal-title" data-i18n="auth.welcome">Welcome to Claralink</h2>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login" data-i18n="auth.login">Login</button>
+                <button class="auth-tab" data-tab="register" data-i18n="auth.register">Register</button>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email" data-i18n="form.email">Email</label>
+                    <input type="email" id="login-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" data-i18n="form.password">Password</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.signIn">Sign In</button>
+            </form>
+
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name" data-i18n="form.fullName">Full Name</label>
+                    <input type="text" id="register-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email" data-i18n="form.email">Email</label>
+                    <input type="email" id="register-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password" data-i18n="form.password">Password</label>
+                    <input type="password" id="register-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-role" data-i18n="auth.iWantTo">I want to</label>
+                    <select id="register-role" class="form-control">
+                        <option value="buyer" data-i18n="auth.buyProducts">Buy Products</option>
+                        <option value="seller" data-i18n="auth.sellProducts">Sell Products</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.createAccount">Create
+                    Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Internationalization
+        const translations = {
+            en: {
+                // App
+                'app.name': 'Claralink',
+
+                // Navigation
+                'nav.home': 'Home',
+                'nav.products': 'Products',
+                'nav.dashboard': 'Dashboard',
+
+                // User
+                'user.guest': 'Guest',
+
+                // Search
+                'search.placeholder': 'Search products...',
+
+                // Hero section
+                'hero.title': 'Revolutionizing Digital Commerce',
+                'hero.subtitle': 'Claralink connects creators with customers worldwide. Discover, purchase, and download digital products instantly.',
+                'hero.shop': 'Start Shopping',
+                'hero.register': 'Create Account',
+
+                // Categories
+                'categories.title': 'Browse by Category',
+                'categories.subtitle': 'Explore our wide range of digital product categories',
+                'categories.software': 'Software & Apps',
+                'categories.ebooks': 'E-books',
+                'categories.digitalArt': 'Digital Art',
+                'categories.music': 'Music & Audio',
+                'categories.video': 'Video Templates',
+                'categories.design': 'Design Resources',
+                'categories.count': '{count} products',
+
+                // Products
+                'products.featured': 'Featured Products',
+                'products.subtitle': 'Handpicked digital products from our top sellers',
+                'products.all': 'All Digital Products',
+                'products.allSubtitle': 'Discover amazing digital products from talented creators',
+                'products.empty': 'No products available yet. Be the first to add one!',
+
+                // Features
+                'features.title': 'Why Choose Claralink?',
+                'features.subtitle': 'Our platform offers unique advantages for both buyers and sellers',
+                'features.instantDelivery': 'Instant Delivery',
+                'features.instantDeliveryDesc': 'Digital products are delivered instantly after purchase. No waiting, no shipping fees.',
+                'features.securePayments': 'Secure Payments',
+                'features.securePaymentsDesc': 'Your transactions are protected with secure payment methods and seller verification.',
+                'features.globalMarketplace': 'Global Marketplace',
+                'features.globalMarketplaceDesc': 'Buy from and sell to customers worldwide with multi-currency support.',
+
+                // Dashboard
+                'dashboard.overview': 'Dashboard Overview',
+                'dashboard.myProducts': 'My Products',
+                'dashboard.addProduct': 'Add Product',
+                'dashboard.sales': 'Sales',
+                'dashboard.settings': 'Settings',
+                'dashboard.totalEarnings': 'Total Earnings',
+                'dashboard.products': 'Products',
+                'dashboard.sales': 'Sales',
+                'dashboard.welcome': 'Welcome to your seller dashboard! Start by adding your first product.',
+                'dashboard.noProducts': 'You haven\'t added any products yet.',
+                'dashboard.noSales': 'No sales yet. Promote your products to start earning!',
+
+                // Forms
+                'form.productTitle': 'Product Title',
+                'form.description': 'Description',
+                'form.price': 'Price ($)',
+                'form.category': 'Category',
+                'form.selectCategory': 'Select Category',
+                'form.whatsapp': 'WhatsApp Number',
+                'form.paymentMethods': 'Payment Methods',
+                'form.addProduct': 'Add Product',
+                'form.fullName': 'Full Name',
+                'form.email': 'Email',
+                'form.password': 'Password',
+                'form.phone': 'Phone Number',
+                'form.saveChanges': 'Save Changes',
+
+                // Payment methods
+                'payment.orangeMoney': 'Orange Money',
+                'payment.moovMoney': 'Moov Money',
+
+                // Auth
+                'auth.welcome': 'Welcome to Claralink',
+                'auth.login': 'Login',
+                'auth.register': 'Register',
+                'auth.signIn': 'Sign In',
+                'auth.createAccount': 'Create Account',
+                'auth.iWantTo': 'I want to',
+                'auth.buyProducts': 'Buy Products',
+                'auth.sellProducts': 'Sell Products',
+
+                // Footer
+                'footer.description': 'The revolutionary platform for digital products. Connecting creators with customers worldwide.',
+                'footer.marketplace': 'Marketplace',
+                'footer.allProducts': 'All Products',
+                'footer.categories': 'Categories',
+                'footer.topSellers': 'Top Sellers',
+                'footer.newArrivals': 'New Arrivals',
+                'footer.company': 'Company',
+                'footer.about': 'About Us',
+                'footer.careers': 'Careers',
+                'footer.blog': 'Blog',
+                'footer.contact': 'Contact',
+                'footer.support': 'Support',
+                'footer.helpCenter': 'Help Center',
+                'footer.faqs': 'FAQs',
+                'footer.sellerGuidelines': 'Seller Guidelines',
+                'footer.reportProblem': 'Report a Problem',
+                'footer.copyright': '© 2023 Claralink. All rights reserved.',
+                'footer.privacy': 'Privacy',
+                'footer.terms': 'Terms',
+                'footer.sitemap': 'Sitemap'
+            },
+            fr: {
+                // App
+                'app.name': 'Claralink',
+
+                // Navigation
+                'nav.home': 'Accueil',
+                'nav.products': 'Produits',
+                'nav.dashboard': 'Tableau de bord',
+
+                // User
+                'user.guest': 'Invité',
+
+                // Search
+                'search.placeholder': 'Rechercher des produits...',
+
+                // Hero section
+                'hero.title': 'Révolutionner le Commerce Numérique',
+                'hero.subtitle': 'Claralink connecte les créateurs avec les clients du monde entier. Découvrez, achetez et téléchargez des produits numériques instantanément.',
+                'hero.shop': 'Commencer les achats',
+                'hero.register': 'Créer un compte',
+
+                // Categories
+                'categories.title': 'Parcourir par Catégorie',
+                'categories.subtitle': 'Explorez notre large gamme de catégories de produits numériques',
+                'categories.software': 'Logiciels & Applications',
+                'categories.ebooks': 'E-books',
+                'categories.digitalArt': 'Art Numérique',
+                'categories.music': 'Musique & Audio',
+                'categories.video': 'Modèles Vidéo',
+                'categories.design': 'Ressources de Conception',
+                'categories.count': '{count} produits',
+
+                // Products
+                'products.featured': 'Produits en Vedette',
+                'products.subtitle': 'Produits numériques sélectionnés par nos meilleurs vendeurs',
+                'products.all': 'Tous les Produits Numériques',
+                'products.allSubtitle': 'Découvrez des produits numériques incroyables de créateurs talentueux',
+                'products.empty': 'Aucun produit disponible pour le moment. Soyez le premier à en ajouter un!',
+
+                // Features
+                'features.title': 'Pourquoi Choisir Claralink?',
+                'features.subtitle': 'Notre plateforme offre des avantages uniques pour les acheteurs et les vendeurs',
+                'features.instantDelivery': 'Livraison Instantanée',
+                'features.instantDeliveryDesc': 'Les produits numériques sont livrés instantanément après l\'achat. Pas d\'attente, pas de frais d\'expédition.',
+                'features.securePayments': 'Paiements Sécurisés',
+                'features.securePaymentsDesc': 'Vos transactions sont protégées avec des méthodes de paiement sécurisées et la vérification des vendeurs.',
+                'features.globalMarketplace': 'Marché Mondial',
+                'features.globalMarketplaceDesc': 'Achetez auprès de clients du monde entier et vendez-leur avec la prise en charge multi-devises.',
+
+                // Dashboard
+                'dashboard.overview': 'Aperçu du Tableau de Bord',
+                'dashboard.myProducts': 'Mes Produits',
+                'dashboard.addProduct': 'Ajouter un Produit',
+                'dashboard.sales': 'Ventes',
+                'dashboard.settings': 'Paramètres',
+                'dashboard.totalEarnings': 'Gains Totaux',
+                'dashboard.products': 'Produits',
+                'dashboard.sales': 'Ventes',
+                'dashboard.welcome': 'Bienvenue sur votre tableau de bord vendeur! Commencez par ajouter votre premier produit.',
+                'dashboard.noProducts': 'Vous n\'avez ajouté aucun produit pour le moment.',
+                'dashboard.noSales': 'Aucune vente pour le moment. Promouvez vos produits pour commencer à gagner!',
+
+                // Forms
+                'form.productTitle': 'Titre du Produit',
+                'form.description': 'Description',
+                'form.price': 'Prix ($)',
+                'form.category': 'Catégorie',
+                'form.selectCategory': 'Sélectionner une Catégorie',
+                'form.whatsapp': 'Numéro WhatsApp',
+                'form.paymentMethods': 'Méthodes de Paiement',
+                'form.addProduct': 'Ajouter le Produit',
+                'form.fullName': 'Nom Complet',
+                'form.email': 'Email',
+                'form.password': 'Mot de Passe',
+                'form.phone': 'Numéro de Téléphone',
+                'form.saveChanges': 'Enregistrer les Modifications',
+
+                // Payment methods
+                'payment.orangeMoney': 'Orange Money',
+                'payment.moovMoney': 'Moov Money',
+
+                // Auth
+                'auth.welcome': 'Bienvenue sur Claralink',
+                'auth.login': 'Connexion',
+                'auth.register': 'Inscription',
+                'auth.signIn': 'Se Connecter',
+                'auth.createAccount': 'Créer un Compte',
+                'auth.iWantTo': 'Je veux',
+                'auth.buyProducts': 'Acheter des Produits',
+                'auth.sellProducts': 'Vendre des Produits',
+
+                // Footer
+                'footer.description': 'La plateforme révolutionnaire pour les produits numériques. Connecter les créateurs avec les clients du monde entier.',
+                'footer.marketplace': 'Marketplace',
+                'footer.allProducts': 'Tous les Produits',
+                'footer.categories': 'Catégories',
+                'footer.topSellers': 'Meilleurs Vendeurs',
+                'footer.newArrivals': 'Nouveautés',
+                'footer.company': 'Entreprise',
+                'footer.about': 'À Propos',
+                'footer.careers': 'Carrières',
+                'footer.blog': 'Blog',
+                'footer.contact': 'Contact',
+                'footer.support': 'Support',
+                'footer.helpCenter': 'Centre d\'Aide',
+                'footer.faqs': 'FAQs',
+                'footer.sellerGuidelines': 'Directives pour les Vendeurs',
+                'footer.reportProblem': 'Signaler un Problème',
+                'footer.copyright': '© 2023 Claralink. Tous droits réservés.',
+                'footer.privacy': 'Confidentialité',
+                'footer.terms': 'Conditions',
+                'footer.sitemap': 'Plan du Site'
+            }
+        };
+
+        // Application State
+        const state = {
+            currentUser: null,
+            products: [], // Empty array for real products
+            userProducts: [],
+            currentLanguage: 'en'
+        };
+
+        // DOM Elements
+        const elements = {
+            pages: document.querySelectorAll('.page'),
+            navLinks: document.querySelectorAll('.nav-link'),
+            authModal: document.getElementById('auth-modal'),
+            loginForm: document.getElementById('login-form'),
+            registerForm: document.getElementById('register-form'),
+            userMenu: document.getElementById('user-menu'),
+            productsGrid: document.querySelector('#products .products-grid'),
+            myProductsGrid: document.getElementById('my-products-grid'),
+            addProductForm: document.getElementById('add-product-form'),
+            dashboardTabs: document.querySelectorAll('.dashboard-tab'),
+            dashboardTabContents: document.querySelectorAll('.dashboard-tab-content'),
+            languageDropdown: document.getElementById('language-dropdown'),
+            languageOptions: document.querySelectorAll('.language-option'),
+            featuredProducts: document.getElementById('featured-products'),
+            allProducts: document.getElementById('all-products')
+        };
+
+        // Initialize Application
+        function initApp() {
+            // Set language based on browser preference
+            const browserLang = navigator.language.split('-')[0];
+            const savedLang = localStorage.getItem('cloralink_language');
+            const defaultLang = savedLang || (browserLang === 'fr' ? 'fr' : 'en');
+
+            setLanguage(defaultLang);
+
+            // Load user from localStorage
+            const savedUser = localStorage.getItem('cloralink_user');
+            if (savedUser) {
+                state.currentUser = JSON.parse(savedUser);
+                updateUserInterface();
+            }
+
+            // Load products from localStorage
+            const savedProducts = localStorage.getItem('cloralink_products');
+            if (savedProducts) {
+                state.products = JSON.parse(savedProducts);
+            }
+
+            // Load user products from localStorage
+            const savedUserProducts = localStorage.getItem('cloralink_user_products');
+            if (savedUserProducts) {
+                state.userProducts = JSON.parse(savedUserProducts);
+            }
+
+            // Render products
+            renderProducts();
+            renderUserProducts();
+
+            // Set up event listeners
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            elements.navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = e.target.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+
+            // Auth modal
+            document.getElementById('register-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                showAuthModal('register');
+            });
+
+            elements.userMenu.addEventListener('click', () => {
+                if (state.currentUser) {
+                    // Show user dropdown or profile
+                    showPage('dashboard');
+                } else {
+                    showAuthModal('login');
+                }
+            });
+
+            // Auth forms
+            elements.loginForm.addEventListener('submit', handleLogin);
+            elements.registerForm.addEventListener('submit', handleRegister);
+
+            // Dashboard tabs
+            elements.dashboardTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabId = e.target.getAttribute('data-tab');
+                    switchDashboardTab(tabId);
+                });
+            });
+
+            // Add product form
+            elements.addProductForm.addEventListener('submit', handleAddProduct);
+
+            // Language selector
+            document.querySelector('.language-btn').addEventListener('click', () => {
+                elements.languageDropdown.classList.toggle('active');
+            });
+
+            elements.languageOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    const lang = e.target.closest('.language-option').getAttribute('data-lang');
+                    setLanguage(lang);
+                    elements.languageDropdown.classList.remove('active');
+                });
+            });
+
+            // Modal close
+            document.querySelector('.modal-close').addEventListener('click', () => {
+                elements.authModal.classList.remove('active');
+            });
+
+            // Auth tabs
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    const tabName = e.target.getAttribute('data-tab');
+                    switchAuthTab(tabName);
+                });
+            });
+        }
+
+        // Internationalization functions
+        function setLanguage(lang) {
+            state.currentLanguage = lang;
+            document.getElementById('current-language').textContent = lang.toUpperCase();
+
+            // Update active language option
+            elements.languageOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                }
+            });
+
+            // Update all translatable elements
+            updatePageText(lang);
+
+            // Save language preference
+            localStorage.setItem('cloralink_language', lang);
+        }
+
+        function updatePageText(lang) {
+            // Update elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                let translation = translations[lang][key] || translations['en'][key];
+
+                // Handle dynamic values
+                if (el.hasAttribute('data-i18n-options')) {
+                    const options = JSON.parse(el.getAttribute('data-i18n-options'));
+                    Object.keys(options).forEach(optionKey => {
+                        translation = translation.replace(`{${optionKey}}`, options[optionKey]);
+                    });
+                }
+
+                el.textContent = translation;
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = translations[lang][key] || translations['en'][key];
+            });
+
+            // Update select options
+            document.querySelectorAll('option[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = translations[lang][key] || translations['en'][key];
+            });
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            elements.pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update active nav link
+            elements.navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Auth modal
+        function showAuthModal(defaultTab = 'login') {
+            elements.authModal.classList.add('active');
+            switchAuthTab(defaultTab);
+        }
+
+        function switchAuthTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-tab') === tabName) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Update active form
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-form`).classList.add('active');
+
+            // Update modal title
+            document.getElementById('auth-modal-title').textContent =
+                tabName === 'login'
+                    ? (translations[state.currentLanguage]['auth.welcome'] || 'Welcome to Claralink')
+                    : (translations[state.currentLanguage]['auth.welcome'] || 'Welcome to Claralink');
+        }
+
+        // Auth handlers
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Simple validation
+            if (!email || !password) {
+                alert(state.currentLanguage === 'fr'
+                    ? 'Veuillez remplir tous les champs'
+                    : 'Please fill in all fields');
+                return;
+            }
+
+            // Simulate login
+            state.currentUser = {
+                id: Date.now(),
+                name: email.split('@')[0],
+                email: email,
+                role: 'seller' // Default to seller for demo
+            };
+
+            // Save to localStorage
+            localStorage.setItem('cloralink_user', JSON.stringify(state.currentUser));
+
+            // Update UI
+            updateUserInterface();
+            elements.authModal.classList.remove('active');
+
+            // Show success message
+            alert(state.currentLanguage === 'fr'
+                ? 'Connexion réussie!'
+                : 'Login successful!');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const role = document.getElementById('register-role').value;
+
+            // Simple validation
+            if (!name || !email || !password) {
+                alert(state.currentLanguage === 'fr'
+                    ? 'Veuillez remplir tous les champs'
+                    : 'Please fill in all fields');
+                return;
+            }
+
+            // Simulate registration
+            state.currentUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                role: role
+            };
+
+            // Save to localStorage
+            localStorage.setItem('cloralink_user', JSON.stringify(state.currentUser));
+
+            // Update UI
+            updateUserInterface();
+            elements.authModal.classList.remove('active');
+
+            // Show success message
+            alert(state.currentLanguage === 'fr'
+                ? 'Inscription réussie!'
+                : 'Registration successful!');
+        }
+
+        // Update user interface based on auth state
+        function updateUserInterface() {
+            if (state.currentUser) {
+                // Update user menu
+                const userAvatar = elements.userMenu.querySelector('.user-avatar');
+                const userName = elements.userMenu.querySelector('span');
+
+                userAvatar.textContent = state.currentUser.name.charAt(0).toUpperCase();
+                userName.textContent = state.currentUser.name;
+
+                // Show dashboard link if seller
+                if (state.currentUser.role === 'seller') {
+                    document.querySelector('[data-page="dashboard"]').style.display = 'block';
+                }
+            } else {
+                // Reset user menu
+                const userAvatar = elements.userMenu.querySelector('.user-avatar');
+                const userName = elements.userMenu.querySelector('span');
+
+                userAvatar.textContent = '?';
+                userName.textContent = translations[state.currentLanguage]['user.guest'];
+
+                // Hide dashboard link
+                document.querySelector('[data-page="dashboard"]').style.display = 'none';
+            }
+        }
+
+        // Render products
+        function renderProducts() {
+            // Clear existing products
+            if (elements.featuredProducts) {
+                if (state.products.length === 0) {
+                    elements.featuredProducts.innerHTML = `<div class="no-products" data-i18n="products.empty">${translations[state.currentLanguage]['products.empty']}</div>`;
+                } else {
+                    elements.featuredProducts.innerHTML = state.products.map(product => `
+                        <div class="product-card">
+                            <div class="product-image">
+                                ${product.featured ? '<div class="product-badge">Bestseller</div>' : ''}
+                                <i class="fas fa-${getProductIcon(product.category)}"></i>
+                            </div>
+                            <div class="product-content">
+                                <div class="product-category">${formatCategory(product.category)}</div>
+                                <h3 class="product-title">${product.title}</h3>
+                                <p class="product-description">${product.description}</p>
+                                <div class="product-footer">
+                                    <div class="product-price">$${product.price}</div>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>${product.rating} (${product.reviews})</span>
+                                    </div>
+                                </div>
+                                <div class="payment-methods">
+                                    <div class="payment-method">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <span>${product.whatsapp}</span>
+                                    </div>
+                                    ${product.paymentMethods.map(method => `
+                                        <div class="payment-method">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>${formatPaymentMethod(method)}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            if (elements.allProducts) {
+                if (state.products.length === 0) {
+                    elements.allProducts.innerHTML = `<div class="no-products" data-i18n="products.empty">${translations[state.currentLanguage]['products.empty']}</div>`;
+                } else {
+                    elements.allProducts.innerHTML = state.products.map(product => `
+                        <div class="product-card">
+                            <div class="product-image">
+                                ${product.featured ? '<div class="product-badge">Bestseller</div>' : ''}
+                                <i class="fas fa-${getProductIcon(product.category)}"></i>
+                            </div>
+                            <div class="product-content">
+                                <div class="product-category">${formatCategory(product.category)}</div>
+                                <h3 class="product-title">${product.title}</h3>
+                                <p class="product-description">${product.description}</p>
+                                <div class="product-footer">
+                                    <div class="product-price">$${product.price}</div>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>${product.rating} (${product.reviews})</span>
+                                    </div>
+                                </div>
+                                <div class="payment-methods">
+                                    <div class="payment-method">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <span>${product.whatsapp}</span>
+                                    </div>
+                                    ${product.paymentMethods.map(method => `
+                                        <div class="payment-method">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>${formatPaymentMethod(method)}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        // Render user products
+        function renderUserProducts() {
+            if (!elements.myProductsGrid) return;
+
+            if (state.userProducts.length === 0) {
+                elements.myProductsGrid.innerHTML = `<div class="no-products" data-i18n="dashboard.noProducts">${translations[state.currentLanguage]['dashboard.noProducts']}</div>`;
+                return;
+            }
+
+            elements.myProductsGrid.innerHTML = state.userProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-${getProductIcon(product.category)}"></i>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">${formatCategory(product.category)}</div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-footer">
+                            <div class="product-price">$${product.price}</div>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <span>0 (0)</span>
+                            </div>
+                        </div>
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>${product.whatsapp}</span>
+                            </div>
+                            ${product.paymentMethods.map(method => `
+                                <div class="payment-method">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>${formatPaymentMethod(method)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add product handler
+        function handleAddProduct(e) {
+            e.preventDefault();
+
+            if (!state.currentUser) {
+                alert(state.currentLanguage === 'fr'
+                    ? 'Veuillez vous connecter pour ajouter des produits'
+                    : 'Please log in to add products');
+                showAuthModal('login');
+                return;
+            }
+
+            const title = document.getElementById('product-title').value;
+            const description = document.getElementById('product-description').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const category = document.getElementById('product-category').value;
+            const whatsapp = document.getElementById('product-whatsapp').value;
+
+            // Get payment methods
+            const paymentMethods = [];
+            if (document.getElementById('orange-money').checked) {
+                paymentMethods.push('orange-money');
+            }
+            if (document.getElementById('moov-money').checked) {
+                paymentMethods.push('moov-money');
+            }
+
+            // Validate
+            if (!title || !description || !price || !category || !whatsapp || paymentMethods.length === 0) {
+                alert(state.currentLanguage === 'fr'
+                    ? 'Veuillez remplir tous les champs'
+                    : 'Please fill in all fields');
+                return;
+            }
+
+            // Create new product
+            const newProduct = {
+                id: Date.now(),
+                title,
+                description,
+                price,
+                category,
+                whatsapp,
+                paymentMethods,
+                rating: 0,
+                reviews: 0,
+                seller: state.currentUser.name,
+                featured: false
+            };
+
+            // Add to state
+            state.userProducts.push(newProduct);
+            state.products.push(newProduct);
+
+            // Save to localStorage
+            localStorage.setItem('cloralink_products', JSON.stringify(state.products));
+            localStorage.setItem('cloralink_user_products', JSON.stringify(state.userProducts));
+
+            // Update UI
+            renderUserProducts();
+            renderProducts();
+
+            // Reset form
+            elements.addProductForm.reset();
+
+            // Show success message
+            alert(state.currentLanguage === 'fr'
+                ? 'Produit ajouté avec succès!'
+                : 'Product added successfully!');
+
+            // Switch to my products tab
+            switchDashboardTab('my-products');
+        }
+
+        // Dashboard tab switching
+        function switchDashboardTab(tabId) {
+            // Update active tab
+            elements.dashboardTabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Update active content
+            elements.dashboardTabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+        }
+
+        // Helper functions
+        function getProductIcon(category) {
+            const icons = {
+                'software': 'laptop-code',
+                'ebooks': 'book',
+                'digital-art': 'palette',
+                'music': 'music',
+                'video': 'video',
+                'design': 'pencil-ruler'
+            };
+            return icons[category] || 'cube';
+        }
+
+        function formatCategory(category) {
+            const categories = {
+                'software': translations[state.currentLanguage]['categories.software'],
+                'ebooks': translations[state.currentLanguage]['categories.ebooks'],
+                'digital-art': translations[state.currentLanguage]['categories.digitalArt'],
+                'music': translations[state.currentLanguage]['categories.music'],
+                'video': translations[state.currentLanguage]['categories.video'],
+                'design': translations[state.currentLanguage]['categories.design']
+            };
+            return categories[category] || category;
+        }
+
+        function formatPaymentMethod(method) {
+            const methods = {
+                'orange-money': translations[state.currentLanguage]['payment.orangeMoney'],
+                'moov-money': translations[state.currentLanguage]['payment.moovMoney']
+            };
+            return methods[method] || method;
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+
+</html>
