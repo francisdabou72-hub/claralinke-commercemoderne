@@ -39,6 +39,7 @@
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -71,11 +72,17 @@
             font-size: 24px;
             font-weight: 700;
             color: var(--primary);
+            z-index: 101;
         }
 
         .logo img {
             height: 40px;
             width: auto;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
         }
 
         nav ul {
@@ -245,6 +252,16 @@
         .language-option.active {
             background-color: rgba(99, 102, 241, 0.1);
             color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark);
+            cursor: pointer;
+            z-index: 101;
         }
 
         /* Hero Section */
@@ -561,59 +578,6 @@
             color: var(--gray-light);
         }
 
-        /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .testimonial-card {
-            background-color: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .testimonial-content {
-            font-style: italic;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .testimonial-content::before {
-            content: '"';
-            font-size: 60px;
-            color: var(--primary-light);
-            opacity: 0.2;
-            position: absolute;
-            top: -20px;
-            left: -10px;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--gray-light);
-        }
-
-        .author-info h4 {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .author-info p {
-            font-size: 14px;
-            color: var(--gray);
-        }
-
         /* Dashboard Preview */
         .dashboard-preview {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -889,13 +853,45 @@
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .dashboard-container {
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .header-container {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 15px;
             }
 
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: white;
+                box-shadow: var(--shadow-lg);
+                transition: var(--transition);
+                z-index: 100;
+                padding: 80px 20px 20px;
+            }
+
+            nav.active {
+                right: 0;
+            }
+
             nav ul {
+                flex-direction: column;
                 gap: 15px;
             }
 
@@ -903,8 +899,12 @@
                 width: 200px;
             }
 
+            .hero {
+                padding: 60px 0;
+            }
+
             .hero h1 {
-                font-size: 36px;
+                font-size: 32px;
             }
 
             .hero-buttons {
@@ -932,6 +932,52 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 576px) {
+            .header-actions {
+                gap: 10px;
+            }
+
+            .search-box input {
+                width: 150px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-preview {
+                padding: 40px 20px;
+            }
+
+            .dashboard-preview h2 {
+                font-size: 28px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -940,11 +986,15 @@
     <header>
         <div class="container header-container">
             <div class="logo">
-                <img src="claralink.png" alt="Claralink">
+                <img src="claralink.png" alt="claralink logo">
                 <span data-i18n="app.name">Claralink</span>
             </div>
 
-            <nav>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="main-nav">
                 <ul>
                     <li><a href="#" class="nav-link active" data-page="home" data-i18n="nav.home">Home</a></li>
                     <li><a href="#" class="nav-link" data-page="products" data-i18n="nav.products">Products</a></li>
@@ -960,12 +1010,12 @@
 
                 <button class="icon-btn" id="wishlist-btn">
                     <i class="far fa-heart"></i>
-                    <span class="badge">0</span>
+                    <span class="badge">3</span>
                 </button>
 
                 <button class="icon-btn" id="cart-btn">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="badge">0</span>
+                    <span class="badge">2</span>
                 </button>
 
                 <div class="language-selector">
@@ -999,13 +1049,11 @@
             <div class="container">
                 <div class="hero-content">
                     <h1 data-i18n="hero.title">The Empire of E-Commerce Moderne</h1>
-                    <p data-i18n="hero.subtitle">ClaraLink — The Future of E-Commerce Moderne
-                        Sell your skills.
-                        Share your ideas. Buy with confidence.
-                        ClaraLink connects creators and customers worldwide with one simple mission:
-                        to make knowledge and creativity profitable for everyone.
-                        Whether you're starting your first business or scaling your digital empire, ClaraLink gives you
-                        the tools, the audience, and the freedom to grow.</p>
+                    <p data-i18n="hero.subtitle">ClaraLink — The Future of E-Commerce Moderne. Sell your skills. Share
+                        your ideas. Buy with confidence. ClaraLink connects creators and customers worldwide with one
+                        simple mission: to make knowledge and creativity profitable for everyone. Whether you're
+                        starting your first business or scaling your digital empire, ClaraLink gives you the tools, the
+                        audience, and the freedom to grow.</p>
                     <div class="hero-buttons">
                         <a href="#" class="btn btn-primary nav-link" data-page="products">
                             <i class="fas fa-shopping-bag"></i>
@@ -1034,7 +1082,7 @@
                             <i class="fas fa-laptop-code"></i>
                         </div>
                         <h3 class="category-name" data-i18n="categories.software">Software & Apps</h3>
-                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 8}'>8
                             products</span>
                     </div>
 
@@ -1043,7 +1091,7 @@
                             <i class="fas fa-book"></i>
                         </div>
                         <h3 class="category-name" data-i18n="categories.ebooks">E-books</h3>
-                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 12}'>12
                             products</span>
                     </div>
 
@@ -1052,7 +1100,7 @@
                             <i class="fas fa-photo-video"></i>
                         </div>
                         <h3 class="category-name" data-i18n="categories.digitalArt">Digital Art</h3>
-                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 6}'>6
                             products</span>
                     </div>
 
@@ -1061,7 +1109,7 @@
                             <i class="fas fa-music"></i>
                         </div>
                         <h3 class="category-name" data-i18n="categories.music">Music & Audio</h3>
-                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 0}'>0
+                        <span class="category-count" data-i18n="categories.count" data-i18n-options='{"count": 5}'>5
                             products</span>
                     </div>
                 </div>
@@ -1077,8 +1125,7 @@
                 </div>
 
                 <div class="products-grid" id="featured-products">
-                    <div class="no-products" data-i18n="products.empty">No products available yet. Be the first to add
-                        one!</div>
+                    <!-- Featured products will be loaded here -->
                 </div>
             </div>
         </div>
@@ -1133,8 +1180,7 @@
             </div>
 
             <div class="products-grid" id="all-products">
-                <div class="no-products" data-i18n="products.empty">No products available yet. Be the first to add one!
-                </div>
+                <!-- All products will be loaded here -->
             </div>
         </div>
     </section>
@@ -1286,12 +1332,11 @@
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3 data-i18n="app.name">Claralink</h3>
-                    <p data-i18n="footer.description">ClaraLink — The Future of Digital Commerce
-                        Sell your skills. Share your ideas. Buy with confidence.
-                        ClaraLink connects creators and customers worldwide with one simple mission: to make knowledge
-                        and creativity profitable for everyone.
-                        Whether you start your first business or scaling your digital empire, ClaraLink gives you
-                        the tools, the audience, and the freedom to grow.</p>
+                    <p data-i18n="footer.description">ClaraLink — The Future of Digital Commerce. Sell your skills.
+                        Share your ideas. Buy with confidence. ClaraLink connects creators and customers worldwide with
+                        one simple mission: to make knowledge and creativity profitable for everyone. Whether you start
+                        your first business or scaling your digital empire, ClaraLink gives you the tools, the audience,
+                        and the freedom to grow.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -1409,8 +1454,8 @@
                 'search.placeholder': 'Search products...',
 
                 // Hero section
-                'hero.title': 'Revolutionizing Digital Commerce',
-                'hero.subtitle': 'Claralink connects creators with customers worldwide. Discover, purchase, and download digital products instantly.',
+                'hero.title': 'The Empire of E-Commerce Moderne',
+                'hero.subtitle': 'ClaraLink — The Future of E-Commerce Moderne. Sell your skills. Share your ideas. Buy with confidence. ClaraLink connects creators and customers worldwide with one simple mission: to make knowledge and creativity profitable for everyone. Whether you\'re starting your first business or scaling your digital empire, ClaraLink gives you the tools, the audience, and the freedom to grow.',
                 'hero.shop': 'Start Shopping',
                 'hero.register': 'Create Account',
 
@@ -1485,7 +1530,7 @@
                 'auth.sellProducts': 'Sell Products',
 
                 // Footer
-                'footer.description': 'The revolutionary platform for digital products. Connecting creators with customers worldwide.',
+                'footer.description': 'ClaraLink — The Future of Digital Commerce. Sell your skills. Share your ideas. Buy with confidence. ClaraLink connects creators and customers worldwide with one simple mission: to make knowledge and creativity profitable for everyone. Whether you start your first business or scaling your digital empire, ClaraLink gives you the tools, the audience, and the freedom to grow.',
                 'footer.marketplace': 'Marketplace',
                 'footer.allProducts': 'All Products',
                 'footer.categories': 'Categories',
@@ -1501,7 +1546,7 @@
                 'footer.faqs': 'FAQs',
                 'footer.sellerGuidelines': 'Seller Guidelines',
                 'footer.reportProblem': 'Report a Problem',
-                'footer.copyright': '© 2023 Claralink. All rights reserved.',
+                'footer.copyright': '© 2025 Claralink. All rights reserved.',
                 'footer.privacy': 'Privacy',
                 'footer.terms': 'Terms',
                 'footer.sitemap': 'Sitemap'
@@ -1522,8 +1567,8 @@
                 'search.placeholder': 'Rechercher des produits...',
 
                 // Hero section
-                'hero.title': 'Révolutionner le Commerce Numérique',
-                'hero.subtitle': 'Claralink connecte les créateurs avec les clients du monde entier. Découvrez, achetez et téléchargez des produits numériques instantanément.',
+                'hero.title': 'L\'Empire du E-Commerce Moderne',
+                'hero.subtitle': 'ClaraLink — L\'Avenir du E-Commerce Moderne. Vendez vos compétences. Partagez vos idées. Achetez en toute confiance. ClaraLink connecte les créateurs et les clients du monde entier avec une mission simple : rendre les connaissances et la créativité profitables pour tous. Que vous commenciez votre première entreprise ou développiez votre empire numérique, ClaraLink vous donne les outils, le public et la liberté de grandir.',
                 'hero.shop': 'Commencer les achats',
                 'hero.register': 'Créer un compte',
 
@@ -1598,7 +1643,7 @@
                 'auth.sellProducts': 'Vendre des Produits',
 
                 // Footer
-                'footer.description': 'La plateforme révolutionnaire pour les produits numériques. Connecter les créateurs avec les clients du monde entier.',
+                'footer.description': 'ClaraLink — L\'Avenir du Commerce Numérique. Vendez vos compétences. Partagez vos idées. Achetez en toute confiance. ClaraLink connecte les créateurs et les clients du monde entier avec une mission simple : rendre les connaissances et la créativité profitables pour tous. Que vous commenciez votre première entreprise ou développiez votre empire numérique, ClaraLink vous donne les outils, le public et la liberté de grandir.',
                 'footer.marketplace': 'Marketplace',
                 'footer.allProducts': 'Tous les Produits',
                 'footer.categories': 'Catégories',
@@ -1614,17 +1659,125 @@
                 'footer.faqs': 'FAQs',
                 'footer.sellerGuidelines': 'Directives pour les Vendeurs',
                 'footer.reportProblem': 'Signaler un Problème',
-                'footer.copyright': '© 2023 Claralink. Tous droits réservés.',
+                'footer.copyright': '© 2025 Claralink. Tous droits réservés.',
                 'footer.privacy': 'Confidentialité',
                 'footer.terms': 'Conditions',
                 'footer.sitemap': 'Plan du Site'
             }
         };
 
+        // Sample Products Data
+        const sampleProducts = [
+            {
+                id: 1,
+                title: "Premium UI Kit for React",
+                price: 49.99,
+                category: "software",
+                description: "Complete UI component library with 100+ customizable components for React applications.",
+                rating: 4.9,
+                reviews: 128,
+                seller: "DevTools Inc.",
+                whatsapp: "+225 07 12 34 56 78",
+                paymentMethods: ["orange-money"],
+                featured: true
+            },
+            {
+                id: 2,
+                title: "Advanced JavaScript Patterns",
+                price: 24.99,
+                category: "ebooks",
+                description: "Master complex JavaScript patterns with practical examples and real-world applications.",
+                rating: 4.7,
+                reviews: 89,
+                seller: "CodeMaster Pro",
+                whatsapp: "+225 05 87 65 43 21",
+                paymentMethods: ["moov-money"],
+                featured: true
+            },
+            {
+                id: 3,
+                title: "Abstract Digital Art Collection",
+                price: 19.99,
+                category: "digital-art",
+                description: "50 high-resolution abstract digital artworks perfect for wallpapers and creative projects.",
+                rating: 4.8,
+                reviews: 56,
+                seller: "ArtVision Studio",
+                whatsapp: "+225 01 23 45 67 89",
+                paymentMethods: ["orange-money"],
+                featured: true
+            },
+            {
+                id: 4,
+                title: "Epic Cinematic Soundtrack",
+                price: 34.99,
+                category: "music",
+                description: "Professional cinematic music tracks for films, games, and multimedia projects.",
+                rating: 4.9,
+                reviews: 42,
+                seller: "SoundCraft Productions",
+                whatsapp: "+225 07 89 12 34 56",
+                paymentMethods: ["orange-money", "moov-money"],
+                featured: false
+            },
+            {
+                id: 5,
+                title: "Social Media Content Pack",
+                price: 14.99,
+                category: "design",
+                description: "500+ customizable social media templates for Instagram, Facebook, and Twitter.",
+                rating: 4.6,
+                reviews: 73,
+                seller: "DesignFactory",
+                whatsapp: "+225 05 55 44 33 22",
+                paymentMethods: ["orange-money"],
+                featured: false
+            },
+            {
+                id: 6,
+                title: "Productivity Mastery Course",
+                price: 79.99,
+                category: "ebooks",
+                description: "Complete guide to mastering productivity with proven techniques and tools.",
+                rating: 4.8,
+                reviews: 95,
+                seller: "LifeHack Academy",
+                whatsapp: "+225 01 98 76 54 32",
+                paymentMethods: ["moov-money"],
+                featured: false
+            },
+            {
+                id: 7,
+                title: "Video Editing Template Pack",
+                price: 29.99,
+                category: "video",
+                description: "Professional video editing templates for Adobe Premiere and After Effects.",
+                rating: 4.7,
+                reviews: 61,
+                seller: "VideoWizards",
+                whatsapp: "+225 07 77 66 55 44",
+                paymentMethods: ["orange-money", "moov-money"],
+                featured: false
+            },
+            {
+                id: 8,
+                title: "Mobile App UI Design System",
+                price: 39.99,
+                category: "design",
+                description: "Complete design system for mobile applications with 200+ components.",
+                rating: 4.9,
+                reviews: 84,
+                seller: "UX Masters",
+                whatsapp: "+225 05 11 22 33 44",
+                paymentMethods: ["orange-money"],
+                featured: false
+            }
+        ];
+
         // Application State
         const state = {
             currentUser: null,
-            products: [], // Empty array for real products
+            products: [...sampleProducts], // Start with sample products
             userProducts: [],
             currentLanguage: 'en'
         };
@@ -1645,7 +1798,9 @@
             languageDropdown: document.getElementById('language-dropdown'),
             languageOptions: document.querySelectorAll('.language-option'),
             featuredProducts: document.getElementById('featured-products'),
-            allProducts: document.getElementById('all-products')
+            allProducts: document.getElementById('all-products'),
+            mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+            mainNav: document.getElementById('main-nav')
         };
 
         // Initialize Application
@@ -1692,7 +1847,15 @@
                     e.preventDefault();
                     const pageId = e.target.getAttribute('data-page');
                     showPage(pageId);
+
+                    // Close mobile menu if open
+                    elements.mainNav.classList.remove('active');
                 });
+            });
+
+            // Mobile menu
+            elements.mobileMenuBtn.addEventListener('click', () => {
+                elements.mainNav.classList.toggle('active');
             });
 
             // Auth modal
@@ -1952,10 +2115,12 @@
         function renderProducts() {
             // Clear existing products
             if (elements.featuredProducts) {
-                if (state.products.length === 0) {
+                const featuredProducts = state.products.filter(product => product.featured);
+
+                if (featuredProducts.length === 0) {
                     elements.featuredProducts.innerHTML = `<div class="no-products" data-i18n="products.empty">${translations[state.currentLanguage]['products.empty']}</div>`;
                 } else {
-                    elements.featuredProducts.innerHTML = state.products.map(product => `
+                    elements.featuredProducts.innerHTML = featuredProducts.map(product => `
                         <div class="product-card">
                             <div class="product-image">
                                 ${product.featured ? '<div class="product-badge">Bestseller</div>' : ''}
